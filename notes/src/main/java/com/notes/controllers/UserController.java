@@ -13,6 +13,7 @@ import java.util.Optional;
 
 
 //@RestController annotation combines @Controller and @ResponseBody
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
@@ -20,20 +21,20 @@ public class UserController {
     private UserService userService;
 
     //Create
-    @PostMapping("create")
+    @PostMapping("")
     public User createUser(@RequestBody User user)
     {
         return userService.createUser(user);
     }
 
     //Read
-    @GetMapping("/user")
+    @GetMapping("")
     public List<User> fetchUserList()
     {
         return userService.fetchUserList();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public Optional<User> findUserById(@PathVariable("id")
                                            Integer userId)
     {
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     //Update
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     public User
     updateUser(@RequestBody User user,
                @PathVariable("id") Integer userId)
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     //Delete
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable("id")
                                  Integer userId)
     {
