@@ -1,6 +1,9 @@
 package com.notes.entities;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
-
+    @NotNull
     private String username;
+    @NotNull
+    private String pwHash;
 
-    private String password;
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @OneToMany (mappedBy = "user")
     private final List<Note> notes = new ArrayList<>();
@@ -25,7 +30,7 @@ public class User {
 
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.pwHash = encoder.encode(password);
     }
 
     @Override
@@ -33,7 +38,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return userId == user.userId && Objects.equals(username, user.username) && Objects.equals(pwHash, user.pwHash);
     }
 
     @Override
@@ -41,13 +46,13 @@ public class User {
         return "User{" +
                 "id=" + userId +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + pwHash + '\'' +
                 '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, password);
+        return Objects.hash(userId, username, pwHash);
     }
 
     public int getUserId() {
@@ -67,10 +72,14 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return pwHash;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.pwHash = password;
+    }
+
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 }
