@@ -54,7 +54,7 @@ public class NoteController {
 //    }
 
     // Methods for application use
-    @GetMapping("/index")
+    @GetMapping("")
     public String displayNotes(Model model) {
         model.addAttribute("title", "Notes");
         model.addAttribute("h1", "Your Notes");
@@ -76,10 +76,10 @@ public class NoteController {
             return "notes/add";
         }
         noteRepository.save(newNote);
-        return "/notes/index";
+        return "redirect:./";
     }
 
-    @GetMapping("view/{noteId}")
+    @GetMapping("/{noteId}")
     public String displayViewNote(Model model, @PathVariable int noteId) {
 
         Optional<Note> optNote = noteRepository.findById(noteId);
@@ -88,9 +88,10 @@ public class NoteController {
             model.addAttribute("note", note);
             return "notes/view";
         } else {
-            return "redirect:../";
+            return "redirect:./";
         }
 
     }
+
 
 }
