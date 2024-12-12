@@ -91,7 +91,18 @@ public class NoteController {
             return "redirect:";
         }
 
+    }
 
+//    @PostMapping("/{noteId}")
+//    public String updateNote(Model model, @PathVariable Note note, Integer noteId){
+//
+//    }
+
+    @PostMapping("/{noteId}")
+    public String deleteNote (@PathVariable Integer noteId)
+    {
+        noteRepository.deleteById(noteId);
+        return "redirect:";
     }
 
 

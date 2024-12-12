@@ -5,5 +5,9 @@
 <h1 th:text="${'Note Title: ' + note.title}">Default Title</h1>
 <h3 th:text="${'Note Content: ' + note.content}">Default Content</h3>
 <p th:text="${'Note ID: ' + note.noteId}">Default id</p>
+
+<form action="/notes/deleteNote" method="post">
+    <button type="submit">Delete Note</button>
+</form>
 </body>
 </html>
