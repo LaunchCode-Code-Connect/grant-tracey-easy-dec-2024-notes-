@@ -1,7 +1,9 @@
 package com.notes.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,19 +18,20 @@ public class Note {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotBlank
     private String title;
-
+    @NotBlank
     private String content;
 
-    private Date createdAt;
+    private LocalDate createdAt;
 
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     public Note(){
 
     }
 
-    public Note(User user, String title, String content, Date createdAt, Date updatedAt) {
+    public Note(User user, String title, String content, LocalDate createdAt, LocalDate updatedAt) {
         this.user = user;
         this.title = title;
         this.content = content;
@@ -64,19 +67,19 @@ public class Note {
         this.content = content;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

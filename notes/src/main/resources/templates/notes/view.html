@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<body class="container  body-content">
+<h1 th:text="${'Note: ' + note.title}">Default Title</h1>
+
+<!--<nav th:replace="~{fragments :: page-header}"></nav>-->
+
+<!--<div class="job-listing">-->
+<!--    <p th:text="${'Name: ' + employer.name}"></p>-->
+<!--    <p th:text="${'Location: ' + employer.location}"></p>-->
+    <p> Jobs:
+    <ul>
+        <li th:each="note : ${note.title}">
+            <a th:href="@{'/view/' + ${note.note_id}}" th:text="${note.title}"></a>
+        </li>
+    </ul>
+    </p>
+</div>
+
+
+</body>
+</html>
