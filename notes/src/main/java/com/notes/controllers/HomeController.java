@@ -16,7 +16,7 @@ public class HomeController {
     @GetMapping("/dashboard")
     public String displayDashboard(Model model) {
         model.addAttribute("title", "Dashboard");
-        model.addAttribute("h1", "Your Notes");
+        model.addAttribute("h1", "Dashboard");
         return "dashboard";
     }
 

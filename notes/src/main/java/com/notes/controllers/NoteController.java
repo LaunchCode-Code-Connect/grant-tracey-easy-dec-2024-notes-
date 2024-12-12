@@ -54,7 +54,7 @@ public class NoteController {
 //    }
 
     // Methods for application use
-    @GetMapping("")
+    @GetMapping("/")
     public String displayNotes(Model model) {
         model.addAttribute("title", "Notes");
         model.addAttribute("h1", "Your Notes");
@@ -76,7 +76,7 @@ public class NoteController {
             return "notes/add";
         }
         noteRepository.save(newNote);
-        return "redirect:./";
+        return "redirect:";
     }
 
     @GetMapping("/{noteId}")
@@ -88,7 +88,7 @@ public class NoteController {
             model.addAttribute("note", note);
             return "notes/view";
         } else {
-            return "redirect:./";
+            return "redirect:";
         }
 
     }
