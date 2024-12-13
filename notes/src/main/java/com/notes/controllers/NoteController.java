@@ -99,7 +99,7 @@ public class NoteController {
 //    }
 
     @PostMapping("/{noteId}")
-    public String deleteNote (@PathVariable Integer noteId)
+    public String deleteNote (@PathVariable("noteId") Integer noteId)
     {
         noteRepository.deleteById(noteId);
         return "redirect:";
