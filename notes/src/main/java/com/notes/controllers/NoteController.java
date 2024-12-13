@@ -18,8 +18,8 @@ import java.util.Optional;
 @RequestMapping("/notes")
 public class NoteController {
 
-//    @Autowired
-//    private NoteService noteService;
+    @Autowired
+    private NoteService noteService;
 
     @Autowired
     private NoteRepository noteRepository;
@@ -103,6 +103,32 @@ public class NoteController {
     {
         noteRepository.deleteById(noteId);
         return "redirect:";
+    }
+
+    @PostMapping("/update")
+    public Note updateNote(@RequestBody Note note, @PathVariable("noteId") Integer noteId)
+    {
+        return noteService.updateNote(
+                note, noteId
+        );
+    }
+
+
+    @GetMapping("/{noteId}/edit")
+    public String displayEdit(Model model, @PathVariable("noteId") Integer noteId) {
+        model.addAttribute("h1", "Edit Note " + "#" + noteId);
+        return "notes/edit";
+    }
+    @PostMapping("/{noteId}/edit")
+    public Note updateNote(@RequestBody Note note,
+                           @PathVariable("noteId") Integer noteId,
+                           String newTitle, String newContent)
+    {
+        note.setTitle(newTitle);
+        note.setContent(newContent);
+        return noteService.updateNote(
+                note, noteId
+        );
     }
 
 
