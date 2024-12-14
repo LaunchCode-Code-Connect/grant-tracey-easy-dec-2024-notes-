@@ -1,9 +1,7 @@
 package com.notes.services;
 
 import com.notes.entities.Note;
-import com.notes.entities.User;
 import com.notes.repositories.NoteRepository;
-import com.notes.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

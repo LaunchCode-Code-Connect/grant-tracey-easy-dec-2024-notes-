@@ -1,7 +1,6 @@
 package com.notes.services;
 
 import com.notes.entities.Note;
-import com.notes.entities.User;
 
 import java.util.List;
 import java.util.Optional;

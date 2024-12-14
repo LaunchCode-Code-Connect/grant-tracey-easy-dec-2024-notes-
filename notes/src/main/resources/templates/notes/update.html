@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en">
+<head></head>
+<body class="container">
+<header th:text = "${title}">Default Title</header>
+<h1 th:text = "${h1}">Default h1</h1>
+<h3 th:text = "${h3}">Default h3</h3>
+<p th:text = "${p}"> Default p</p>
+
+<form th:action="@{/notes/{noteId}(noteId=${note.noteId})/update}" method="post" style="max-width:600px;">
+    <div class="form-group">
+        <label th:for="name">Note Title</label>
+        <input class="form-control" type="text" id="title" name="title" />
+    </div>
+
+    <div class="form-group">
+        <label th:for="content">Note Content</label>
+        <input class="form-control" type="text" id="content" name="content" />
+<!--        <span th:errors="${note.content}" class="error"></span>-->
+    </div>
+        <button class="submit">Update Note</button>
+    </form>
+
+</form>
+
+</body>
+</html>

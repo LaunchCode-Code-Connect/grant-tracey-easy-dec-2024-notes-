@@ -7,7 +7,7 @@
 <h1 th:text = "${h1}">Default h1</h1>
 
 <form method="post" style="max-width:600px;">
-    <div class="form-group">d
+    <div class="form-group">
         <label th:for="name">Note Title</label>
         <input class="form-control" th:field="${note.title}" />
         <span th:errors="${note.title}" class="error"></span>

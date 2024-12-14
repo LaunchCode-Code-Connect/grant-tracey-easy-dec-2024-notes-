@@ -6,6 +6,7 @@ import com.notes.repositories.NoteRepository;
 import com.notes.services.NoteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -105,30 +106,38 @@ public class NoteController {
         return "redirect:";
     }
 
-    @PostMapping("/update")
-    public Note updateNote(@RequestBody Note note, @PathVariable("noteId") Integer noteId)
-    {
-        return noteService.updateNote(
-                note, noteId
-        );
-    }
+//    @PostMapping("/update")
+//    public Note updateNote(@RequestBody Note note, @PathVariable("noteId") Integer noteId)
+//    {
+//        return noteService.updateNote(
+//                note, noteId
+//        );
+//    }
 
 
-    @GetMapping("/{noteId}/edit")
-    public String displayEdit(Model model, @PathVariable("noteId") Integer noteId) {
-        model.addAttribute("h1", "Edit Note " + "#" + noteId);
-        return "notes/edit";
+    @GetMapping("/{noteId}/update")
+    public String displayEditNote(Model model, @PathVariable("noteId") Integer noteId) {
+
+        Optional<Note> optNote = noteRepository.findById(noteId);
+        if (optNote.isPresent()) {
+            Note note = (Note) optNote.get();
+            model.addAttribute("h1", note.getTitle());
+            model.addAttribute("h3", note.getContent());
+            model.addAttribute("p", "Note #" + note.getNoteId());
+            return "notes/update";
+        } else {
+            return "redirect:";
+        }
+
     }
-    @PostMapping("/{noteId}/edit")
-    public Note updateNote(@RequestBody Note note,
-                           @PathVariable("noteId") Integer noteId,
-                           String newTitle, String newContent)
+    @PostMapping("/{noteId}/update")
+    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Integer noteId,
+                                           @ModelAttribute Note updatedNote)
     {
-        note.setTitle(newTitle);
-        note.setContent(newContent);
-        return noteService.updateNote(
-                note, noteId
-        );
+
+        Note note = noteService.updateNote(updatedNote, noteId);
+
+        return ResponseEntity.ok(note);
     }
 
 
