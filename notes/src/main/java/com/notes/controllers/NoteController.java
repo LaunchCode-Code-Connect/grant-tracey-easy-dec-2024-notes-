@@ -55,11 +55,24 @@ public class NoteController {
 //    }
 
     // Methods for application use
-    @GetMapping("/")
-    public String displayNotes(Model model) {
-        model.addAttribute("title", "Notes");
-        model.addAttribute("h1", "Your Notes");
-        return "notes/index";
+    @GetMapping("/list")
+    public String displayNotes(@RequestParam(required = false) Integer noteId, Model model) {
+    // Displays all notes unless noteId parameter is provided
+        if (noteId == null) {
+            model.addAttribute("title", "All Notes");
+            model.addAttribute("notes", noteRepository.findAll());
+        } else {
+            Optional<Note> result = noteRepository.findById(noteId);
+            if (result.isEmpty()) {
+                model.addAttribute("title", "Invalid Note ID: " + noteId);
+            } else {
+                Note note = result.get();
+                model.addAttribute("title", "Title: " + note.getTitle());
+                model.addAttribute("notes", note.getContent());
+            }
+        }
+
+        return "notes/list";
     }
 
     @GetMapping("/add")
@@ -80,17 +93,20 @@ public class NoteController {
         return "redirect:";
     }
 
-    @GetMapping("/{noteId}")
-    public String displayViewNote(Model model, @PathVariable int noteId) {
+    @GetMapping("/detail")
+    public String displayViewNote(@RequestParam int noteId, Model model) {
 
         Optional<Note> optNote = noteRepository.findById(noteId);
-        if (optNote.isPresent()) {
-            Note note = (Note) optNote.get();
-            model.addAttribute("note", note);
-            return "notes/view";
+
+        if (optNote.isEmpty())
+        {
+            model.addAttribute("h1", "Invalid Id" + noteId);
         } else {
-            return "redirect:";
+            Note note = optNote.get();
+            model.addAttribute("title", note.getTitle());
+            model.addAttribute("note", note);
         }
+        return "notes/detail";
 
     }
 

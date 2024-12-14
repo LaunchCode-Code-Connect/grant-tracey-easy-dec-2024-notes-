@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en">
+<head></head>
+<body class="container">
+<header th:text = "${title}">Default Title</header>
+<h1 th:text = "${h1}">Default h1</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Note Name</th>
+    </tr>
+    </thead>
+    <tr th:each="note : ${notes}">
+        <td><a th:href="'/notes/detail?noteId=' + ${note.noteId}" th:text="${note.title}"></a></td>
+    </tr>
+</table>
+</body>
+</html>
