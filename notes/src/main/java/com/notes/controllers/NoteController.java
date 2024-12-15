@@ -59,15 +59,15 @@ public class NoteController {
     public String displayNotes(@RequestParam(required = false) Integer noteId, Model model) {
     // Displays all notes unless noteId parameter is provided
         if (noteId == null) {
-            model.addAttribute("h1", "All Notes");
+            model.addAttribute("h3", "All Notes");
             model.addAttribute("notes", noteRepository.findAll());
         } else {
             Optional<Note> result = noteRepository.findById(noteId);
             if (result.isEmpty()) {
-                model.addAttribute("title", "Invalid Note ID: " + noteId);
+                model.addAttribute("h3", "Invalid Note ID: " + noteId);
             } else {
                 Note note = result.get();
-                model.addAttribute("title", "Title: " + note.getTitle());
+                model.addAttribute("h3", "Title: " + note.getTitle());
                 model.addAttribute("notes", note.getContent());
             }
         }
@@ -86,11 +86,11 @@ public class NoteController {
                                   Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Add Note");
+            model.addAttribute("h3", "Add Note");
             return "notes/add";
         }
         noteRepository.save(newNote);
-        return "redirect:";
+        return "redirect:list";
     }
 
     @GetMapping("/detail")
@@ -100,10 +100,10 @@ public class NoteController {
 
         if (optNote.isEmpty())
         {
-            model.addAttribute("h1", "Invalid Id" + noteId);
+            model.addAttribute("h3", "Invalid Id" + noteId);
         } else {
             Note note = optNote.get();
-            model.addAttribute("h1", note.getTitle());
+            model.addAttribute("h3", note.getTitle());
             model.addAttribute("note", note);
         }
         return "notes/detail";
@@ -120,7 +120,7 @@ public class NoteController {
     {
         noteRepository.deleteById(noteId);
         //REVISIT
-        return "notes/list";
+        return "redirect:../list";
     }
 
 //    @PostMapping("/update")
@@ -138,7 +138,7 @@ public class NoteController {
         Optional<Note> optNote = noteRepository.findById(noteId);
         if (optNote.isPresent()) {
             Note note = (Note) optNote.get();
-            model.addAttribute("h1", note.getTitle());
+            model.addAttribute("h2", note.getTitle());
             model.addAttribute("h3", note.getContent());
             model.addAttribute("p", "Note #" + note.getNoteId());
             return "notes/update";
