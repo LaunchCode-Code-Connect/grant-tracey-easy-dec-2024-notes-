@@ -119,7 +119,6 @@ public class NoteController {
     public String deleteNote (@PathVariable("noteId") Integer noteId)
     {
         noteRepository.deleteById(noteId);
-        //REVISIT
         return "redirect:../list";
     }
 
