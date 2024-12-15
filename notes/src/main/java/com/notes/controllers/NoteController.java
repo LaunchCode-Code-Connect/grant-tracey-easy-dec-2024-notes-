@@ -59,7 +59,7 @@ public class NoteController {
     public String displayNotes(@RequestParam(required = false) Integer noteId, Model model) {
     // Displays all notes unless noteId parameter is provided
         if (noteId == null) {
-            model.addAttribute("title", "All Notes");
+            model.addAttribute("h1", "All Notes");
             model.addAttribute("notes", noteRepository.findAll());
         } else {
             Optional<Note> result = noteRepository.findById(noteId);
@@ -103,7 +103,7 @@ public class NoteController {
             model.addAttribute("h1", "Invalid Id" + noteId);
         } else {
             Note note = optNote.get();
-            model.addAttribute("title", note.getTitle());
+            model.addAttribute("h1", note.getTitle());
             model.addAttribute("note", note);
         }
         return "notes/detail";
@@ -115,11 +115,12 @@ public class NoteController {
 //
 //    }
 
-    @PostMapping("/{noteId}")
+    @PostMapping("/detail/{noteId}")
     public String deleteNote (@PathVariable("noteId") Integer noteId)
     {
         noteRepository.deleteById(noteId);
-        return "redirect:";
+        //REVISIT
+        return "notes/list";
     }
 
 //    @PostMapping("/update")
