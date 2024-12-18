@@ -7,25 +7,32 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body class="container">
-<header th:text = "${title}">Default Title</header>
-<h1 th:text = "${h1}">Default h1</h1>
-<h3 th:text = "${h3}">Default h3</h3>
-<p th:text = "${p}"> Default p</p>
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <td th:text="${note.noteId}"></td>
+    </tr>
+    <tr>
+        <th>Title</th>
+        <td th:text="${note.title}"></td>
+    </tr>
+    <tr>
+        <th>Content</th>
+        <td th:text="${note.content}"></td>
+    </tr>
+</table>
 
-<form th:action="@{/notes/{noteId}(noteId=${note.noteId})/update}" method="post" style="max-width:600px;">
+<form th:action="@{/notes/update/{noteId}(noteId=${note.noteId})}" th:object=${note} th:method="post" style="max-width:600px;">
     <div class="form-group">
-        <label th:for="name">Note Title</label>
-        <input class="form-control" type="text" id="title" name="title" />
+        <label th:for="name">Update Note Title</label>
+        <input class="form-control" />
     </div>
 
     <div class="form-group">
-        <label th:for="content">Note Content</label>
-        <input class="form-control" type="text" id="content" name="content" />
-<!--        <span th:errors="${note.content}" class="error"></span>-->
+        <label th:for="content">Update Note Content</label>
+        <input class="form-control"  />
     </div>
-        <button class="submit">Update Note</button>
-    </form>
-
+    <button class="submit">Update Note</button>
 </form>
 
 </body>

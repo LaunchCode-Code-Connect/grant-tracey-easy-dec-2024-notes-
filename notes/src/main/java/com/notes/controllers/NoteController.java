@@ -3,6 +3,7 @@ package com.notes.controllers;
 import com.notes.entities.Note;
 import com.notes.entities.User;
 import com.notes.repositories.NoteRepository;
+import com.notes.repositories.UserRepository;
 import com.notes.services.NoteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class NoteController {
 
     @Autowired
     private NoteRepository noteRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     // Methods for testing
 //    @GetMapping("")
@@ -77,7 +82,13 @@ public class NoteController {
 
     @GetMapping("/add")
     public String displayNoteForm(Model model) {
+
+//        Optional<User> user = userRepository.findById(userId);
+//        System.out.println(user.get().getUsername()
+//
+//        );
         model.addAttribute(new Note());
+
         return "notes/add";
     }
 
@@ -89,6 +100,7 @@ public class NoteController {
             model.addAttribute("h3", "Add Note");
             return "notes/add";
         }
+
         noteRepository.save(newNote);
         return "redirect:list";
     }
@@ -110,11 +122,6 @@ public class NoteController {
 
     }
 
-//    @PostMapping("/{noteId}")
-//    public String updateNote(Model model, @PathVariable Note note, Integer noteId){
-//
-//    }
-
     @PostMapping("/detail/{noteId}")
     public String deleteNote (@PathVariable("noteId") Integer noteId)
     {
@@ -122,36 +129,27 @@ public class NoteController {
         return "redirect:../list";
     }
 
-//    @PostMapping("/update")
-//    public Note updateNote(@RequestBody Note note, @PathVariable("noteId") Integer noteId)
-//    {
-//        return noteService.updateNote(
-//                note, noteId
-//        );
-//    }
-
-
-    @GetMapping("/{noteId}/update")
-    public String displayEditNote(Model model, @PathVariable("noteId") Integer noteId) {
+    @GetMapping("/update")
+    public String displayEditNote(@RequestParam int noteId, Model model) {
 
         Optional<Note> optNote = noteRepository.findById(noteId);
-        if (optNote.isPresent()) {
-            Note note = (Note) optNote.get();
-            model.addAttribute("h2", note.getTitle());
-            model.addAttribute("h3", note.getContent());
-            model.addAttribute("p", "Note #" + note.getNoteId());
-            return "notes/update";
+
+        if (optNote.isEmpty())
+        {
+            model.addAttribute("h3", "Invalid Id" + noteId);
         } else {
-            return "redirect:";
+            Note note = optNote.get();
+            model.addAttribute("h3", note.getTitle());
+            model.addAttribute("note", note);
         }
+        return "notes/update";
 
     }
-    @PostMapping("/{noteId}/update")
-    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Integer noteId,
-                                           @ModelAttribute Note updatedNote)
-    {
 
-        Note note = noteService.updateNote(updatedNote, noteId);
+    @PostMapping("/update/{noteId}")
+    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Integer noteId, @RequestBody Note updatedNote){
+
+        Note note = noteService.updateNote(noteId, updatedNote);
 
         return ResponseEntity.ok(note);
     }

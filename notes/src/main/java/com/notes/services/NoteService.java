@@ -13,7 +13,7 @@ public interface NoteService {
     List<Note> fetchNoteList();
     Optional<Note> findNoteById(int noteId);
     //Update
-    Note updateNote(Note note, Integer noteId);
+    Note updateNote(Integer noteId, Note note);
     //Delete
     void deleteNoteById(Integer noteId);
 }

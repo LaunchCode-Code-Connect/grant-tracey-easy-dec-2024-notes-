@@ -56,4 +56,6 @@ public class UserServicelmpl implements UserService {
     public void deleteUserById(Integer userId) {
         userRepository.deleteById(userId);
     }
+
+    
 }

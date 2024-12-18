@@ -11,11 +11,19 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Note Name</th>
+        <th>Note ID</th>
     </tr>
     </thead>
     <tr th:each="note : ${notes}">
-        <td><a th:href="'/notes/detail?noteId=' + ${note.noteId}" th:text="${note.title}"></a></td>
+        <td>
+            <p th:text="${note.noteId}"></p>
+        </td>
+        <td>
+            <a th:href="'/notes/detail?noteId=' + ${note.noteId}" th:text="${note.title}"></a>
+        </td>
+        <td>
+            <a th:href="'/notes/update?noteId=' + ${note.noteId}">Edit note</a>
+        </td>
     </tr>
 </table>
 </body>
