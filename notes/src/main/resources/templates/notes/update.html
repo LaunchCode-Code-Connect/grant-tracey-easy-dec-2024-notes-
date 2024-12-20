@@ -22,7 +22,7 @@
     </tr>
 </table>
 
-<form th:action="@{/notes/update/{noteId}(noteId=${note.noteId})}" th:object=${note} th:method="post" style="max-width:600px;">
+<form th:action="@{/notes/update/{noteId}(noteId=${note.noteId})}" th:method="post" style="max-width:600px;">
     <div class="form-group">
         <label th:for="name">Update Note Title</label>
         <input class="form-control" />

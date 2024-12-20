@@ -1,7 +1,6 @@
 package com.notes.controllers;
 
 import com.notes.entities.Note;
-import com.notes.entities.User;
 import com.notes.repositories.NoteRepository;
 import com.notes.repositories.UserRepository;
 import com.notes.services.NoteService;
@@ -10,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,7 +21,6 @@ public class NoteController {
 
     @Autowired
     private NoteService noteService;
-
     @Autowired
     private NoteRepository noteRepository;
 
@@ -146,13 +144,16 @@ public class NoteController {
 
     }
 
-    @PostMapping("/update/{noteId}")
-    public ResponseEntity<Note> updateNote(@PathVariable("noteId") Integer noteId, @RequestBody Note updatedNote){
+    @PostMapping("update/{noteId}")
+    public String updateNote(@PathVariable("noteId") int noteId, @Valid Note note,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            note.setNoteId(noteId);
+            return "notes/add";
+        }
 
-        Note note = noteService.updateNote(noteId, updatedNote);
-
-        return ResponseEntity.ok(note);
+        noteRepository.save(note);
+        return "redirect:/dashboard";
     }
-
 
 }

@@ -43,6 +43,10 @@ public class Note {
         return noteId;
     }
 
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
+    }
+
     public User getUser() {
         return user;
     }
